@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import SplitText from '../reactBits/SplitText/SplitText.jsx';
 import ShinyText from '../reactBits/ShinyText/ShinyText.jsx';
 import TextPressure from '../reactBits/TextPressure/TextPressure.jsx';
-
+import { db } from '../firebase';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 // Test Questions Data
 const questions = [
   {
@@ -102,7 +103,7 @@ const CodeEditor = ({ value, language, onChange }) => {
   );
 };
 
-// Registration Form Component
+// Updated RegistrationForm Component (User inputs all fields, Firebase checks email)
 const RegistrationForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -111,12 +112,12 @@ const RegistrationForm = ({ onSubmit }) => {
   });
   const [showForm, setShowForm] = useState(false);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowForm(true);
     }, 1000);
-
     return () => clearTimeout(timer);
   }, []);
 
@@ -143,11 +144,44 @@ const RegistrationForm = ({ onSubmit }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      onSubmit(formData);
+  const checkUserRegistration = async (email) => {
+    try {
+      const userRef = doc(db, 'registeredUsers', email);
+      const userSnap = await getDoc(userRef);
+      return userSnap.exists();
+    } catch (error) {
+      console.error('Error checking user registration:', error);
+      return false;
     }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    setLoading(true);
+    try {
+      // Check if email is registered in our system
+      const isRegistered = await checkUserRegistration(formData.email);
+      
+      if (!isRegistered) {
+        setErrors({ email: 'Email not registered. Contact admin for access.' });
+        setLoading(false);
+        return;
+      }
+
+      // Email is registered, use the form data provided by user
+      onSubmit({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone
+      });
+      
+    } catch (error) {
+      console.error('Error:', error);
+      setErrors({ general: 'Something went wrong. Please try again.' });
+    }
+    setLoading(false);
   };
 
   const handleChange = (e) => {
@@ -156,7 +190,6 @@ const RegistrationForm = ({ onSubmit }) => {
       [e.target.name]: e.target.value
     });
 
-    // Clear error when user starts typing
     if (errors[e.target.name]) {
       setErrors({
         ...errors,
@@ -164,6 +197,7 @@ const RegistrationForm = ({ onSubmit }) => {
       });
     }
   };
+
   const [titleAnimated, setTitleAnimated] = useState(false);
 
   return (
@@ -183,14 +217,15 @@ const RegistrationForm = ({ onSubmit }) => {
             onLetterAnimationComplete={() => setTitleAnimated(true)}
           />
         </h1>
-        <div
-          className={`w-full space-y-6 transition-opacity duration-700 ${showForm ? 'opacity-100' : 'opacity-0 pointer-events-none'
-            }`}>
+        <div className={`w-full space-y-6 transition-opacity duration-700 ${showForm ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
           <img src='./swag.png' alt="SWAG Logo" className="absolute h-1/9 top-2 right-4 mb-6" />
           <img src='./gdg.png' alt="GDG Logo" className="absolute w-1/8 top-2 left-2 mb-6" />
           <p className="text-gray-400 text-lg font-bold text-center mb-8">
             <ShinyText text="Code Compete Conquer" disabled={false} speed={2} className='animate-shine' />
           </p>
+
+          {errors.general && <p className="text-red-400 text-sm text-center">{errors.general}</p>}
+
           <div>
             <label className="block text-sm font-medium mb-2">Full Name</label>
             <input
@@ -198,8 +233,7 @@ const RegistrationForm = ({ onSubmit }) => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className={`w-full bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 ${errors.name ? 'border-2 border-red-500' : ''
-                }`}
+              className={`w-full bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 ${errors.name ? 'border-2 border-red-500' : ''}`}
               placeholder="Enter your full name"
             />
             {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name}</p>}
@@ -212,8 +246,7 @@ const RegistrationForm = ({ onSubmit }) => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 ${errors.email ? 'border-2 border-red-500' : ''
-                }`}
+              className={`w-full bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 ${errors.email ? 'border-2 border-red-500' : ''}`}
               placeholder="Enter your college email"
             />
             {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
@@ -226,8 +259,7 @@ const RegistrationForm = ({ onSubmit }) => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className={`w-full bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 ${errors.phone ? 'border-2 border-red-500' : ''
-                }`}
+              className={`w-full bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 ${errors.phone ? 'border-2 border-red-500' : ''}`}
               placeholder="Enter your phone number"
             />
             {errors.phone && <p className="text-red-400 text-sm mt-1">{errors.phone}</p>}
@@ -235,9 +267,10 @@ const RegistrationForm = ({ onSubmit }) => {
 
           <button
             onClick={handleSubmit}
-            className="w-full mt-3 bg-gray-600 hover:bg-gray-700 py-3 rounded-lg font-medium outline-2 outline-gray-400 transition-colors"
+            disabled={loading}
+            className="w-full mt-3 bg-gray-600 hover:bg-gray-700 py-3 rounded-lg font-medium outline-2 outline-gray-400 transition-colors disabled:opacity-50"
           >
-            Start Test
+            {loading ? 'Checking Email...' : 'Start Test'}
           </button>
         </div>
       </div>
@@ -487,29 +520,49 @@ const TestInterface = ({ studentData, onSubmit }) => {
     setShowOutput(false);
   };
 
-  const handleSubmit = useCallback(() => {
-    if (testCompleted) return;
+  const handleSubmit = useCallback(async () => {
+  if (testCompleted) return;
 
-    setTestCompleted(true);
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
+  setTestCompleted(true);
+  if (timerRef.current) {
+    clearInterval(timerRef.current);
+  }
 
-    const testEndTime = Date.now();
-    const timeTaken = testEndTime - testStartTime.current;
+  const testEndTime = Date.now();
+  const timeTaken = testEndTime - testStartTime.current;
+  const submissionId = 'SUB_' + Date.now().toString(36).toUpperCase();
 
-    const submissionData = {
-      ...studentData,
-      answers,
-      timeTaken,
-      timeLeft,
-      warningCount,
-      submittedAt: new Date().toISOString(),
-      totalQuestions: questions.length
-    };
+  const submissionData = {
+    // This will now contain user-provided name, email, phone
+    name: studentData.name,        // From user input
+    email: studentData.email,      // From user input  
+    phone: studentData.phone,      // From user input
+    answers,
+    timeTaken,
+    timeLeft,
+    warningCount,
+    submittedAt: serverTimestamp(),
+    totalQuestions: questions.length,
+    submissionId,
+    completedQuestions: Object.keys(answers).length
+  };
 
-    onSubmit(submissionData, timeTaken);
-  }, [studentData, answers, timeLeft, warningCount, testCompleted, onSubmit]);
+  try {
+    // Save to Firestore
+    await setDoc(doc(db, 'testSubmissions', submissionId), submissionData);
+    
+    await setDoc(doc(db, 'userSubmissions', studentData.email), {
+      ...submissionData,
+      lastSubmission: serverTimestamp()
+    });
+
+    console.log('Test submitted successfully');
+    onSubmit(submissionData, timeTaken, submissionId);
+  } catch (error) {
+    console.error('Error saving to Firestore:', error);
+    onSubmit(submissionData, timeTaken, submissionId);
+  }
+}, [studentData, answers, timeLeft, warningCount, testCompleted, onSubmit]);
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
