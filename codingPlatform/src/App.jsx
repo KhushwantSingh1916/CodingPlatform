@@ -338,7 +338,6 @@ const ResultsScreen = ({ timeTaken, submissionId, answers }) => {
         <div className="text-sm text-black font-bold space-y-2">
           <p>Time taken: <span className="text-white">{minutes}m {seconds}s</span></p>
           <p>Questions attempted: <span className="text-white">{completedQuestions} of {questions.length}</span></p>
-          <p>Submission ID: <span className="text-white">{submissionId}</span></p>
         </div>
         <div className="mt-6 pt-4 border-t border-gray-600">
           <p className="text-xs text-gray-500">
@@ -671,7 +670,8 @@ const TestInterface = ({ studentData, onSubmit }) => {
                   <option value="javascript">JavaScript</option>
                   <option value="python">Python</option>
                   <option value="java">Java</option>
-                  <option value="cpp">C++</option>
+                  <option value="cpp">C++</option>\
+                  <option value="c">C</option>
                 </select>
                 <button
                   onClick={handleRunCode}
