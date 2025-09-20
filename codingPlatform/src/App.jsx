@@ -8,56 +8,61 @@ import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 const questions = [
   {
     id: 1,
-    title: "Sum of Even Numbers",
-    text: "Write a function that takes an array of integers and returns the sum of all even numbers in the array.",
-    example: "Input: [1, 2, 3, 4, 5, 6]\nOutput: 12 (2 + 4 + 6)",
-    constraints: "Array length: 1 ≤ n ≤ 1000\nArray elements: -1000 ≤ arr[i] ≤ 1000",
+    title: "Star Pattern",
+    text: "Write a function that takes an integer n and prints a star pattern where each row i (1-indexed) contains i stars.",
+    example: "Input: 4\nOutput:\n*\n**\n***\n****",
+    constraints: "Number of rows: 1 ≤ n ≤ 50",
     starter: {
-      javascript: "function sumEvenNumbers(arr) {\n    // Write your code here\n    \n}",
-      python: "def sum_even_numbers(arr):\n    # Write your code here\n    pass",
-      java: "public class Solution {\n    public static int sumEvenNumbers(int[] arr) {\n        // Write your code here\n        return 0;\n    }\n}",
-      cpp: "#include <vector>\nusing namespace std;\n\nint sumEvenNumbers(vector<int>& arr) {\n    // Write your code here\n    return 0;\n}"
+      javascript: "function starPattern(n) {\n    // Write your code here\n    \n}",
+      python: "def star_pattern(n):\n    # Write your code here\n    pass",
+      java: "public class Solution {\n    public static void starPattern(int n) {\n        // Write your code here\n    }\n}",
+      cpp: "#include <iostream>\nusing namespace std;\n\nvoid starPattern(int n) {\n    // Write your code here\n}",
+      c: "#include <stdio.h>\n\nvoid starPattern(int n) {\n    // Write your code here\n}"
     },
     testCases: [
-      { input: [1, 2, 3, 4, 5, 6], expected: 12 },
-      { input: [1, 3, 5], expected: 0 },
-      { input: [2, 4, 6, 8], expected: 20 }
+      { input: 3, expected: "*\n**\n***" },
+      { input: 1, expected: "*" },
+      { input: 5, expected: "*\n**\n***\n****\n*****" }
     ]
   },
   {
     id: 2,
-    title: "Reverse String",
-    text: "Write a function that takes a string as input and returns the string reversed.",
-    example: "Input: 'hello'\nOutput: 'olleh'",
-    constraints: "String length: 1 ≤ n ≤ 1000\nString contains only printable ASCII characters",
+    title: "Fibonacci Series",
+    text: "Write a function that takes an integer n and returns the nth number in the Fibonacci series (0-indexed). The Fibonacci series starts with 0, 1, and each subsequent number is the sum of the two preceding ones.",
+    example: "Input: 6\nOutput: 8 (Fibonacci series: 0, 1, 1, 2, 3, 5, 8, ...)",
+    constraints: "Position: 0 ≤ n ≤ 50",
     starter: {
-      javascript: "function reverseString(str) {\n    // Write your code here\n    \n}",
-      python: "def reverse_string(s):\n    # Write your code here\n    pass",
-      java: "public class Solution {\n    public static String reverseString(String str) {\n        // Write your code here\n        return \"\";\n    }\n}",
-      cpp: "#include <string>\nusing namespace std;\n\nstring reverseString(string str) {\n    // Write your code here\n    return \"\";\n}"
+      javascript: "function fibonacci(n) {\n    // Write your code here\n    \n}",
+      python: "def fibonacci(n):\n    # Write your code here\n    pass",
+      java: "public class Solution {\n    public static long fibonacci(int n) {\n        // Write your code here\n        return 0;\n    }\n}",
+      cpp: "#include <iostream>\nusing namespace std;\n\nlong long fibonacci(int n) {\n    // Write your code here\n    return 0;\n}",
+      c: "#include <stdio.h>\n\nlong long fibonacci(int n) {\n    // Write your code here\n    return 0;\n}"
     },
     testCases: [
-      { input: "hello", expected: "olleh" },
-      { input: "world", expected: "dlrow" },
-      { input: "a", expected: "a" }
+      { input: 0, expected: 0 },
+      { input: 1, expected: 1 },
+      { input: 6, expected: 8 },
+      { input: 10, expected: 55 }
     ]
   },
   {
     id: 3,
-    title: "Find Maximum",
-    text: "Write a function that takes an array of numbers and returns the maximum number.",
-    example: "Input: [3, 7, 1, 9, 2]\nOutput: 9",
-    constraints: "Array length: 1 ≤ n ≤ 1000\nArray elements: -1000000 ≤ arr[i] ≤ 1000000",
+    title: "Count Vowels",
+    text: "Write a function that takes a string as input and returns the count of vowels (a, e, i, o, u) in the string. Consider both uppercase and lowercase vowels.",
+    example: "Input: 'Hello World'\nOutput: 3 (e, o, o)",
+    constraints: "String length: 1 ≤ n ≤ 1000\nString contains only alphabetic characters and spaces",
     starter: {
-      javascript: "function findMaximum(arr) {\n    // Write your code here\n    \n}",
-      python: "def find_maximum(arr):\n    # Write your code here\n    pass",
-      java: "public class Solution {\n    public static int findMaximum(int[] arr) {\n        // Write your code here\n        return 0;\n    }\n}",
-      cpp: "#include <vector>\nusing namespace std;\n\nint findMaximum(vector<int>& arr) {\n    // Write your code here\n    return 0;\n}"
+      javascript: "function countVowels(str) {\n    // Write your code here\n    \n}",
+      python: "def count_vowels(s):\n    # Write your code here\n    pass",
+      java: "public class Solution {\n    public static int countVowels(String str) {\n        // Write your code here\n        return 0;\n    }\n}",
+      cpp: "#include <string>\nusing namespace std;\n\nint countVowels(string str) {\n    // Write your code here\n    return 0;\n}",
+      c: "#include <stdio.h>\n#include <string.h>\n\nint countVowels(char* str) {\n    // Write your code here\n    return 0;\n}"
     },
     testCases: [
-      { input: [3, 7, 1, 9, 2], expected: 9 },
-      { input: [-1, -5, -3], expected: -1 },
-      { input: [42], expected: 42 }
+      { input: "Hello World", expected: 3 },
+      { input: "programming", expected: 3 },
+      { input: "xyz", expected: 0 },
+      { input: "AEIOU", expected: 5 }
     ]
   }
 ];
