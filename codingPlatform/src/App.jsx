@@ -8,61 +8,61 @@ import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 const questions = [
   {
     id: 1,
-    title: "Star Pattern",
-    text: "Write a function that takes an integer n and prints a star pattern where each row i (1-indexed) contains i stars.",
-    example: "Input: 4\nOutput:\n*\n**\n***\n****",
+    title: "Number Pattern",
+    text: "Write a function that takes an integer n and prints a number pattern where each row i (1-indexed) contains numbers from 1 to i.",
+    example: "Input: 4\nOutput:\n1\n12\n123\n1234",
     constraints: "Number of rows: 1 ≤ n ≤ 50",
     starter: {
-      javascript: "function starPattern(n) {\n    // Write your code here\n    \n}",
-      python: "def star_pattern(n):\n    # Write your code here\n    pass",
-      java: "public class Solution {\n    public static void starPattern(int n) {\n        // Write your code here\n    }\n}",
-      cpp: "#include <iostream>\nusing namespace std;\n\nvoid starPattern(int n) {\n    // Write your code here\n}",
-      c: "#include <stdio.h>\n\nvoid starPattern(int n) {\n    // Write your code here\n}"
+      javascript: "function numberPattern(n) {\n    // Write your code here\n    \n}",
+      python: "def number_pattern(n):\n    # Write your code here\n    pass",
+      java: "public class Solution {\n    public static void numberPattern(int n) {\n        // Write your code here\n    }\n}",
+      cpp: "#include <iostream>\nusing namespace std;\n\nvoid numberPattern(int n) {\n    // Write your code here\n}",
+      c: "#include <stdio.h>\n\nvoid numberPattern(int n) {\n    // Write your code here\n}"
     },
     testCases: [
-      { input: 3, expected: "*\n**\n***" },
-      { input: 1, expected: "*" },
-      { input: 5, expected: "*\n**\n***\n****\n*****" }
+      { input: 3, expected: "1\n12\n123" },
+      { input: 1, expected: "1" },
+      { input: 5, expected: "1\n12\n123\n1234\n12345" }
     ]
   },
   {
     id: 2,
-    title: "Fibonacci Series",
-    text: "Write a function that takes an integer n and returns the nth number in the Fibonacci series (0-indexed). The Fibonacci series starts with 0, 1, and each subsequent number is the sum of the two preceding ones.",
-    example: "Input: 6\nOutput: 8 (Fibonacci series: 0, 1, 1, 2, 3, 5, 8, ...)",
-    constraints: "Position: 0 ≤ n ≤ 50",
+    title: "Factorial",
+    text: "Write a function that takes an integer n and returns the factorial of n. The factorial of n (denoted as n!) is the product of all positive integers less than or equal to n.",
+    example: "Input: 5\nOutput: 120 (5! = 5 × 4 × 3 × 2 × 1 = 120)",
+    constraints: "Number: 0 ≤ n ≤ 20",
     starter: {
-      javascript: "function fibonacci(n) {\n    // Write your code here\n    \n}",
-      python: "def fibonacci(n):\n    # Write your code here\n    pass",
-      java: "public class Solution {\n    public static long fibonacci(int n) {\n        // Write your code here\n        return 0;\n    }\n}",
-      cpp: "#include <iostream>\nusing namespace std;\n\nlong long fibonacci(int n) {\n    // Write your code here\n    return 0;\n}",
-      c: "#include <stdio.h>\n\nlong long fibonacci(int n) {\n    // Write your code here\n    return 0;\n}"
+      javascript: "function factorial(n) {\n    // Write your code here\n    \n}",
+      python: "def factorial(n):\n    # Write your code here\n    pass",
+      java: "public class Solution {\n    public static long factorial(int n) {\n        // Write your code here\n        return 0;\n    }\n}",
+      cpp: "#include <iostream>\nusing namespace std;\n\nlong long factorial(int n) {\n    // Write your code here\n    return 0;\n}",
+      c: "#include <stdio.h>\n\nlong long factorial(int n) {\n    // Write your code here\n    return 0;\n}"
     },
     testCases: [
-      { input: 0, expected: 0 },
+      { input: 0, expected: 1 },
       { input: 1, expected: 1 },
-      { input: 6, expected: 8 },
-      { input: 10, expected: 55 }
+      { input: 5, expected: 120 },
+      { input: 7, expected: 5040 }
     ]
   },
   {
     id: 3,
-    title: "Count Vowels",
-    text: "Write a function that takes a string as input and returns the count of vowels (a, e, i, o, u) in the string. Consider both uppercase and lowercase vowels.",
-    example: "Input: 'Hello World'\nOutput: 3 (e, o, o)",
-    constraints: "String length: 1 ≤ n ≤ 1000\nString contains only alphabetic characters and spaces",
+    title: "Check Palindrome",
+    text: "Write a function that takes a string as input and returns true if the string is a palindrome (reads the same forwards and backwards), false otherwise. Ignore case sensitivity.",
+    example: "Input: 'racecar'\nOutput: true",
+    constraints: "String length: 1 ≤ n ≤ 1000\nString contains only alphabetic characters",
     starter: {
-      javascript: "function countVowels(str) {\n    // Write your code here\n    \n}",
-      python: "def count_vowels(s):\n    # Write your code here\n    pass",
-      java: "public class Solution {\n    public static int countVowels(String str) {\n        // Write your code here\n        return 0;\n    }\n}",
-      cpp: "#include <string>\nusing namespace std;\n\nint countVowels(string str) {\n    // Write your code here\n    return 0;\n}",
-      c: "#include <stdio.h>\n#include <string.h>\n\nint countVowels(char* str) {\n    // Write your code here\n    return 0;\n}"
+      javascript: "function isPalindrome(str) {\n    // Write your code here\n    \n}",
+      python: "def is_palindrome(s):\n    # Write your code here\n    pass",
+      java: "public class Solution {\n    public static boolean isPalindrome(String str) {\n        // Write your code here\n        return false;\n    }\n}",
+      cpp: "#include <string>\n#include <algorithm>\nusing namespace std;\n\nbool isPalindrome(string str) {\n    // Write your code here\n    return false;\n}",
+      c: "#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\n\nint isPalindrome(char* str) {\n    // Write your code here (return 1 for true, 0 for false)\n    return 0;\n}"
     },
     testCases: [
-      { input: "Hello World", expected: 3 },
-      { input: "programming", expected: 3 },
-      { input: "xyz", expected: 0 },
-      { input: "AEIOU", expected: 5 }
+      { input: "racecar", expected: true },
+      { input: "hello", expected: false },
+      { input: "A", expected: true },
+      { input: "Madam", expected: true }
     ]
   }
 ];
